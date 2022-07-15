@@ -51,7 +51,6 @@ public class EditAddress extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_address);
 
-
         flags = getWindow().getDecorView().getSystemUiVisibility(); // get current flag
         flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;   // add LIGHT_STATUS_BAR to flag
         getWindow().getDecorView().setSystemUiVisibility(flags);
@@ -59,13 +58,23 @@ public class EditAddress extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_ios_new_24);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                onBackPressed();
+
+            }
+        });
+
         getSupportActionBar().setTitle(" ");
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
 
         mAdminDatabase = FirebaseDatabase.getInstance().getReference().child("Admin").child("Locations");
-
 
         // Get reference of widgets from XML layout
         spinner = (Spinner) findViewById(R.id.spinner);

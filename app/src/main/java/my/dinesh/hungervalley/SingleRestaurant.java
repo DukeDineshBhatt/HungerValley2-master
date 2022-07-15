@@ -66,7 +66,7 @@ public class SingleRestaurant extends AppCompatActivity {
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     ProgressBar progressBar;
-    LinearLayout cartLayout, layout_rating;
+    LinearLayout cartLayout, layout_rating, rating_layout;
     TextView price, rating, status;
 
     boolean isRestaurantOff = false;
@@ -101,6 +101,7 @@ public class SingleRestaurant extends AppCompatActivity {
         rating = (TextView) findViewById(R.id.rating);
         status = (TextView) findViewById(R.id.status);
         searchview = findViewById(R.id.searchView);
+        rating_layout = findViewById(R.id.rating_layout);
 
         setSupportActionBar(toolbar);
 
@@ -232,6 +233,17 @@ public class SingleRestaurant extends AppCompatActivity {
             }
         });
 
+        rating_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(SingleRestaurant.this, ReviewActivity.class);
+                intent.putExtra("res_id", restauratId);
+                startActivity(intent);
+                startActivity(intent);
+
+            }
+        });
 
         mMenuDatabase = FirebaseDatabase.getInstance().getReference().child("Restaurants").child(restauratId).child("Menu");
 
@@ -259,7 +271,6 @@ public class SingleRestaurant extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
 
-
             }
 
             @Override
@@ -272,11 +283,10 @@ public class SingleRestaurant extends AppCompatActivity {
 
     }
 
-    private void processsearch(String s)
-    {
+    private void processsearch(String s) {
         FirebaseRecyclerOptions<MenuModel> options1 =
                 new FirebaseRecyclerOptions.Builder<MenuModel>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Restaurants").child(restauratId).child("Menu").orderByChild("LowerCase_FoodName").startAt(s.toLowerCase()).endAt(s.toLowerCase()+"\uf8ff"),MenuModel.class)
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Restaurants").child(restauratId).child("Menu").orderByChild("LowerCase_FoodName").startAt(s.toLowerCase()).endAt(s.toLowerCase() + "\uf8ff"), MenuModel.class)
                         .build();
 
         adapter = new mainAdapter(options1);

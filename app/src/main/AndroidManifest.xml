@@ -18,10 +18,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".ReviewActivity"
+            android:exported="false"
+            android:parentActivityName=".SingleRestaurant"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".SingleOrderHistory"
             android:exported="false"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".OrdersActivity"/>
+            android:parentActivityName=".OrdersActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".OrdersActivity"
             android:exported="false"
