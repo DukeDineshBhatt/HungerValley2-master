@@ -45,6 +45,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 
 public class SingleRestaurant extends AppCompatActivity {
@@ -179,6 +180,9 @@ public class SingleRestaurant extends AppCompatActivity {
                 String banner_url = dataSnapshot.child("Banner").getValue().toString();
                 String type = dataSnapshot.child("Restaurant_type").getValue().toString();
                 String res_address = dataSnapshot.child("Address").getValue().toString();
+
+                DecimalFormat df = new DecimalFormat("0.0");
+
                 String Srating = dataSnapshot.child("Rating").getValue().toString();
 
                 if (dataSnapshot.child("Status").exists()) {
@@ -199,7 +203,7 @@ public class SingleRestaurant extends AppCompatActivity {
                 txt_title.setText(restauratId);
                 txt_type.setText(type);
                 txt_res_add.setText(res_address);
-                rating.setText(Srating);
+                rating.setText(df.format(dataSnapshot.child("Rating").getValue()));
 
                 float a = Float.parseFloat(Srating);
 

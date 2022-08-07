@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -51,6 +52,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.smarteist.autoimageslider.SliderView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -249,9 +251,7 @@ public class MainActivity extends BaseActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
 
 
-        cat.setLayoutManager(new
-
-                LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        cat.setLayoutManager(new GridLayoutManager(this, 4));
 
         link_recycler.setLayoutManager(new
 
@@ -402,7 +402,7 @@ public class MainActivity extends BaseActivity {
             Glide.with(holder.img.getContext())
                     .load(model.getImage())
                     .placeholder(R.drawable.placeholder_restaurant)
-                    .apply(RequestOptions.bitmapTransform(new RoundedCorners(42)))
+                    .circleCrop()
                     .into(holder.img);
 
 
@@ -518,7 +518,9 @@ public class MainActivity extends BaseActivity {
             final String rating = Double.toString(model.getRating());
             final String discount = Integer.toString(model.getDiscount());
 
-            holder.rating.setText(rating);
+            DecimalFormat df = new DecimalFormat("0.0");
+
+            holder.rating.setText(df.format(model.getRating()));
 
             Glide.with(holder.image.getContext()).
                     load(model.getBanner())

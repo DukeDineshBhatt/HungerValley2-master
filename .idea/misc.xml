@@ -6,6 +6,9 @@
         <entry key="..\:/Users/Dell/Downloads/HungerValley2-master/HungerValley2-master/app/src/main/res/drawable/editetxt_border.xml" value="0.1" />
         <entry key="..\:/Users/Dell/Downloads/HungerValley2-master/HungerValley2-master/app/src/main/res/drawable/listgrad.xml" value="0.1" />
         <entry key="..\:/Users/Dell/Downloads/HungerValley2-master/HungerValley2-master/app/src/main/res/drawable/star_bg.xml" value="0.1" />
+        <entry key="..\:/Users/Dell/Downloads/HungerValley2-master/HungerValley2-master/app/src/main/res/layout/activity_account.xml" value="0.14130434782608695" />
+        <entry key="..\:/Users/Dell/Downloads/HungerValley2-master/HungerValley2-master/app/src/main/res/layout/activity_add_review.xml" value="0.14130434782608695" />
+        <entry key="..\:/Users/Dell/Downloads/HungerValley2-master/HungerValley2-master/app/src/main/res/layout/activity_confirm_order2.xml" value="0.14130434782608695" />
         <entry key="..\:/Users/Dell/Downloads/HungerValley2-master/HungerValley2-master/app/src/main/res/layout/activity_edit_address.xml" value="0.14130434782608695" />
         <entry key="..\:/Users/Dell/Downloads/HungerValley2-master/HungerValley2-master/app/src/main/res/layout/activity_forget_password.xml" value="0.14130434782608695" />
         <entry key="..\:/Users/Dell/Downloads/HungerValley2-master/HungerValley2-master/app/src/main/res/layout/activity_login.xml" value="0.14130434782608695" />
@@ -15,6 +18,7 @@
         <entry key="..\:/Users/Dell/Downloads/HungerValley2-master/HungerValley2-master/app/src/main/res/layout/activity_signup.xml" value="0.14130434782608695" />
         <entry key="..\:/Users/Dell/Downloads/HungerValley2-master/HungerValley2-master/app/src/main/res/layout/activity_single_order_history.xml" value="0.14130434782608695" />
         <entry key="..\:/Users/Dell/Downloads/HungerValley2-master/HungerValley2-master/app/src/main/res/layout/activity_single_restaurant.xml" value="0.14130434782608695" />
+        <entry key="..\:/Users/Dell/Downloads/HungerValley2-master/HungerValley2-master/app/src/main/res/layout/category_list_model2.xml" value="0.14130434782608695" />
         <entry key="..\:/Users/Dell/Downloads/HungerValley2-master/HungerValley2-master/app/src/main/res/layout/list_item_rating.xml" value="0.14130434782608695" />
         <entry key="..\:/Users/Dell/Downloads/HungerValley2-master/HungerValley2-master/app/src/main/res/layout/list_item_single.xml" value="0.14130434782608695" />
         <entry key="..\:/Users/Dell/Downloads/HungerValley2-master/HungerValley2-master/app/src/main/res/layout/list_menu_item.xml" value="0.14130434782608695" />

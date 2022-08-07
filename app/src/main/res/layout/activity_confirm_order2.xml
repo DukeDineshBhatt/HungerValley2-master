@@ -218,6 +218,8 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="5dp"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackground"
         android:background="@drawable/button_bg"
         android:text="PLACE ORDER"
         android:textColor="@color/colorPrimaryDark" />

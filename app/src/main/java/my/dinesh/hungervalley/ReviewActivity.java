@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,11 +39,13 @@ public class ReviewActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     int flags;
+    RelativeLayout reviewLayout;
     String restauratId;
     RecyclerView recyclerView;
-    DatabaseReference mReviewDatabase;
-    LinearLayoutManager linearLayoutManager;
-    mainAdapter adapter1;
+    DatabaseReference usersRef;
+    FirebaseDatabase database;
+    myadapter adapter1;
+    private LinearLayoutManager linearLayoutManager;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @SuppressLint("ResourceAsColor")
@@ -76,120 +79,115 @@ public class ReviewActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(restauratId);
 
         recyclerView = (RecyclerView) findViewById(R.id.upload_list);
+        reviewLayout = findViewById(R.id.reviewLayout);
 
         FirebaseApp.initializeApp(this);
 
-        mReviewDatabase = FirebaseDatabase.getInstance().getReference().child("Restaurants").child(restauratId).child("Reviews");
-        mReviewDatabase.keepSynced(true);
+        database = FirebaseDatabase.getInstance();
+
+        usersRef = database.getReference("Users");
+
 
         linearLayoutManager = new
 
                 LinearLayoutManager(ReviewActivity.this);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        FirebaseRecyclerOptions<MyDataSetGet> options1 =
-                new FirebaseRecyclerOptions.Builder<MyDataSetGet>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Restaurants").child(restauratId).child("Reviews"), MyDataSetGet.class)
+        FirebaseRecyclerOptions<ReviewDataSetGet> options1 =
+                new FirebaseRecyclerOptions.Builder<ReviewDataSetGet>()
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Restaurants").child(restauratId).child("Reviews"), ReviewDataSetGet.class)
                         .build();
 
-        adapter1 = new mainAdapter(options1);
+
+        adapter1 = new myadapter(options1);
         recyclerView.setNestedScrollingEnabled(false);
+        adapter1.startListening();
         recyclerView.setAdapter(adapter1);
+
+        reviewLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent chatIntent = new Intent(ReviewActivity.this, AddReviewActivity.class);
+                chatIntent.putExtra("restauranr_id", restauratId);
+                startActivity(chatIntent);
+
+            }
+        });
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
 
     }
 
 
-    public class mainAdapter extends FirebaseRecyclerAdapter<MyDataSetGet, mainAdapter.myviewholder> {
-
-        public mainAdapter(@NonNull FirebaseRecyclerOptions<MyDataSetGet> options1) {
-            super(options1);
+    public class myadapter extends FirebaseRecyclerAdapter<ReviewDataSetGet, myadapter.myviewholder> {
+        public myadapter(@NonNull FirebaseRecyclerOptions<ReviewDataSetGet> options) {
+            super(options);
         }
 
         @Override
-        protected void onBindViewHolder(@NonNull mainAdapter.myviewholder holder, int position, @NonNull MyDataSetGet model) {
+        protected void onBindViewHolder(@NonNull myadapter.myviewholder holder, int position, @NonNull ReviewDataSetGet model) {
 
-            //holder.name.setText(model.getRestaurant_name());
-            //holder.type.setText(model.getRestaurant_type());
+            holder.setIsRecyclable(false);
+            holder.rating.setText(String.valueOf(model.getRating()));
+            holder.review.setText(model.getReview());
 
-            // holder.rating.setText(rating);
+            float a = Float.parseFloat(String.valueOf(model.getRating()));
+
+            if (a > 4.0) {
+
+                holder.layoutRating.setBackgroundResource(R.drawable.star_bg);
+            } else if (a > 3.0) {
+
+                holder.layoutRating.setBackgroundResource(R.drawable.star_bg_two);
+            } else {
+
+                holder.layoutRating.setBackgroundResource(R.drawable.star_bg_three);
+            }
 
 
-            /*holder.mView.setOnClickListener(new View.OnClickListener() {
+            usersRef.child(getRef(position).getKey()).addValueEventListener(new ValueEventListener() {
                 @Override
-                public void onClick(View v) {
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                    mCartDatabase.child(uId).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    holder.name.setText(dataSnapshot.child("username").getValue().toString());
 
-                            if (dataSnapshot.hasChildren()) {
+                }
 
-                                new AlertDialog.Builder(MainActivity.this)
-                                        .setTitle("Replace cart items?")
-                                        .setMessage("Your cart have some items. Do you want to discard and change the restaurant?")
-                                        .setNegativeButton(android.R.string.no, null)
-                                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
-                                            public void onClick(DialogInterface arg0, int arg1) {
-                                                MainActivity.super.onBackPressed();
-
-                                                mCartDatabase.child(uId).removeValue();
-
-                                                Intent chatIntent = new Intent(MainActivity.this, SingleRestaurant.class);
-                                                chatIntent.putExtra("restauranr_id", model.Restaurant_name);
-                                                startActivity(chatIntent);
-                                            }
-                                        }).create().show();
-
-
-                            } else {
-
-                                Intent chatIntent = new Intent(MainActivity.this, SingleRestaurant.class);
-                                chatIntent.putExtra("restauranr_id", model.Restaurant_name);
-                                startActivity(chatIntent);
-
-
-                            }
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
                 }
             });
-*/
-
         }
 
         @NonNull
         @Override
-        public myviewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public myadapter.myviewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_rating, parent, false);
-            return new myviewholder(view);
+            return new myadapter.myviewholder(view);
         }
 
         class myviewholder extends RecyclerView.ViewHolder {
-            View mView;
-            LinearLayout layout_discount, layout_rating;
-            TextView rating, status, name, type;
-            LinearLayout main_view;
-            ImageView image;
+
+            TextView name, review, rating;
+            LinearLayout layoutRating;
 
             public myviewholder(@NonNull View itemView) {
                 super(itemView);
 
-                rating = (TextView) itemView.findViewById(R.id.rating);
                 name = (TextView) itemView.findViewById(R.id.name);
-
-                mView = itemView;
+                review = (TextView) itemView.findViewById(R.id.review);
+                rating = (TextView) itemView.findViewById(R.id.rating);
+                layoutRating = (LinearLayout) itemView.findViewById(R.id.layout_rating);
 
             }
-
         }
     }
+
 }
