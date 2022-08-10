@@ -35,6 +35,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -119,7 +120,7 @@ public class SingleRestaurant extends AppCompatActivity {
 
         mAdminDatabase = FirebaseDatabase.getInstance().getReference().child("Admin").child("Logout");
 
-        final CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
+        /*final CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = true;
@@ -138,7 +139,7 @@ public class SingleRestaurant extends AppCompatActivity {
                     isShow = false;
                 }
             }
-        });
+        });*/
 
 
         mAdminDatabase.addValueEventListener(new ValueEventListener() {
@@ -286,11 +287,13 @@ public class SingleRestaurant extends AppCompatActivity {
                         .build();
 
         adapter = new mainAdapter(options1);
+        recyclerView.setNestedScrollingEnabled(false);
         adapter.startListening();
         recyclerView.setAdapter(adapter);
 
 
     }
+
 
     @Override
     protected void onRestart() {
@@ -299,6 +302,7 @@ public class SingleRestaurant extends AppCompatActivity {
         adapter.startListening();
 
     }
+
 
 
     public class mainAdapter extends FirebaseRecyclerAdapter<MenuModel, mainAdapter.myviewholder> {
@@ -990,14 +994,6 @@ public class SingleRestaurant extends AppCompatActivity {
 
 
         }
-    }
-
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        adapter.startListening();
-
     }
 
 

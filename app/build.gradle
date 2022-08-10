@@ -9,13 +9,13 @@ android {
             keyPassword '9690404890'
         }
     }
-    compileSdkVersion 29
+    compileSdkVersion 30
     defaultConfig {
         applicationId "my.dinesh.hungervalley"
         minSdkVersion 21
-        targetSdkVersion 29
-        versionCode 15
-        versionName "2.4"
+        targetSdkVersion 30
+        versionCode 20
+        versionName "2.9"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.MyConfig
     }
